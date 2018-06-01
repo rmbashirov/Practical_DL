@@ -1,0 +1,13 @@
+version: '2'
+services:
+  ysda_dl:
+    image: ysda_dl
+    build:
+      context: .
+    ipc: host
+    network_mode: host
+    volumes:
+      - .:/workdir
+    mem_limit: 10g
+    environment:
+      - CUDA_VISIBLE_DEVICES=0

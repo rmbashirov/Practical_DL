@@ -1,6 +1,6 @@
 import numpy as np
 import os
-from scipy.misc import imread,imresize
+from scipy.misc import imread, imresize
 import pandas as pd
 
 def fetch_lfw_dataset(attrs_name = "lfw_attributes.txt",
@@ -26,7 +26,7 @@ def fetch_lfw_dataset(attrs_name = "lfw_attributes.txt",
     #read attrs
     df_attrs = pd.read_csv("lfw_attributes.txt",sep='\t',skiprows=1,) 
     df_attrs = pd.DataFrame(df_attrs.iloc[:,:-1].values, columns = df_attrs.columns[1:])
-
+    df_attrs['imagenum'] = df_attrs['imagenum'].apply(int)
 
     #read photos
     photo_ids = []
@@ -56,5 +56,5 @@ def fetch_lfw_dataset(attrs_name = "lfw_attributes.txt",
     all_photos = np.stack(all_photos.values).astype('uint8')
     all_attrs = df.drop(["photo_path","person","imagenum"],axis=1)
     
-    return all_photos,all_attrs
+    return all_photos, all_attrs
     

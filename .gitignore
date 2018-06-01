@@ -74,3 +74,7 @@ debian/reproducible-experiment-platform
 debian/files
 *.substvars
 *.debhelper.log
+
+stage*/
+homework03/lfw-deepfunneled/
+homework03/lfw_attributes.txt
