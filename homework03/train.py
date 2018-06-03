@@ -17,16 +17,9 @@ def get_float(v):
     return result
 
 
-def get_loss(batch, model, criterion, volatile):
-    inputs, _ = batch
-    inputs = variable(inputs, volatile=volatile)
-    outputs, representations = model(inputs)
-    loss = criterion(outputs, inputs)
-    return loss
-
-
 def train(
     model,
+    get_loss,
     output_dirpath,
     init_optimizer, lr,
     epochs,
@@ -74,7 +67,7 @@ def train(
                 torch.save(model.state_dict(), model_dirpath)
                 while not next_val > global_progress:
                     next_val += val_freq
-                val_loss = evaluate(model, val_dataloader, criterion)
+                val_loss = evaluate(model, val_dataloader, get_loss, criterion)
                 model.train()
                 train_hist['val'].append((global_progress, val_loss))
                 val_losses.append(val_loss)
@@ -93,7 +86,7 @@ def train(
     return train_hist
 
 
-def evaluate(model, dataloader, criterion):
+def evaluate(model, dataloader, get_loss, criterion):
     model.eval()
 
     tq = tqdm(total=len(dataloader))
